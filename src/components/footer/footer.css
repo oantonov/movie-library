@@ -1,0 +1,8 @@
+footer {
+    grid-row-start: 3;
+    grid-row-end: 3;
+    text-align: center;
+    background-color:#ed9e04;
+    padding: 20px;
+    color: #fff;
+}
