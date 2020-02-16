@@ -1,57 +1,78 @@
-const api = 'https://afternoon-chamber-67331.herokuapp.com/movies';
-const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMzAyODdiMjNmYzYyMDAwNGY4NDUxNyIsImlhdCI6MTU4MTMyMjM5OCwiZXhwIjoxNTgxOTI3MTk4fQ.OOLvI7oYP4B6VIRTNhlouC2t7SrvlttSVujNg-0qWik';
-const header_obj = {
-    'x-access-token': token,
-    'Content-Type': 'application/json',
-    Accept: 'application/json'
-}
+import {
+    LIST_MOVIES,
+    EDIT_MOVIE,
+    VIEW_MOVIE,
+    ADD_MOVIE_SUCCESS,
+    ADD_MOVIE_FAILURE,
+    ADD_MOVIE_STARTED,
+    DELETE_MOVIE
+} from '../actions/types';
 
-async function callAPI(api) {
-    const response = await fetch(api, { headers: header_obj });
-    return await response.json();
-}
+const initialState = {
+    loading: false,
+    movies: [],
+    error: null
+};
 
-const moviesReducer = (state = false, action) => {
+const moviesReducer = (state = initialState, action) => {
     switch (action.type) {
-        case 'LIST':
-            return (() => {
-                callAPI(api).then((data) => {
-                    if (data.status == 'success') {
-                        console.log('movies', data.data.movies[0]); // JSON data parsed by `response.json()` call
-                    }
-                });
-                return true
-            })()
-        // return state = ((state) => {
-        //     callAPI(api).then((data) => {
-        //         if (data.status == 'success') {
-        //             state = data.data.movies[0]
-        //             console.log('state', state); // JSON data parsed by `response.json()` call
-        //         }
-        //     });
-        //     return state
-        // })()
-
-        case 'CREATE':
-            return callAPI(api, {
-                method: 'POST',
-                headers: header_obj,
-                body: JSON.stringify(action.data)
-            });
-        case 'EDIT':
-            return callAPI(api, {
-                method: 'PUT',
-                headers: header_obj,
-                body: JSON.stringify(action.data)
-            });
-        case 'DELETE':
-            return callAPI(api + '/' + action.id, {
-                method: 'DELETE',
-                headers: header_obj
-            });
+        case LIST_MOVIES:
+            console.log('action.payload', action.payload);
+            return {
+                ...state,
+                loading: true,
+                movies: [action.payload]
+            };
+        case ADD_MOVIE_STARTED:
+            return {
+                ...state,
+                loading: true
+            };
+        case ADD_MOVIE_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                error: null,
+                movies: [...state.movies, action.payload]
+            };
+        case ADD_MOVIE_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                error: action.payload.error
+            };
+        case DELETE_MOVIE:
+            return {
+                ...state,
+                loading: false,
+                error: null,
+                movies: [...state.movies, action.payload]
+            };
         default:
             return state;
     }
 }
 
-export default moviesReducer;
+// const movieReducer = (state = [], action) => {
+//     switch (action.type) {
+//         case 'ADD_MOVIE':
+//             return [
+//                 ...state,
+//                 {
+//                     rating: action.rating,
+//                     isWatched: action.isWatched,
+//                     genres: action.genres,
+//                     _id: action.id,
+//                     name: action.newMovie,
+//                     released_on: Date.now(),
+//                     disk: action.disk,
+//                     userId: "5e30287b23fc620004f8451",
+//                     "__v": 0
+//                 }
+//             ]
+//         default:
+//             return state
+//     }
+// }
+
+export default moviesReducer

@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form'
+//import apiReducer from './api-reducer';
 import moviesReducer from './movie-reducer';
-import moviesLoadedReducer from './movie-loaded';
 
 const allReducers = combineReducers({
-    moviesReducer: moviesReducer,
-    isMoviesLoaded : moviesLoadedReducer,
+    //apiReducer,
+    moviesReducer,
     form: formReducer
 })
 

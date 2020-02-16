@@ -1,21 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
-import { createStore } from 'redux';
+import axios from 'axios';
+import { createStore, compose, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
+import * as serviceWorker from './serviceWorker';
+import App from './App';
+import { listMovies } from './actions';
 import allReducers from './reducers';
-import { checkLoaded, listMovies } from './actions';
+import { API, HEADER_OBJ } from './credentials';
+import thunk from 'redux-thunk';
+import './index.css';
+
+const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const store = createStore(
     allReducers,
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+    composeEnhancer(applyMiddleware(thunk))
 );
 
 store.subscribe(() => store.getState());
-// store.dispatch(checkLoaded());
-store.dispatch(listMovies());
 
 ReactDOM.render(
     <Provider store={store}>
@@ -23,5 +26,13 @@ ReactDOM.render(
     </Provider>,
     document.getElementById('root')
 );
+
+axios.get(API, { headers: HEADER_OBJ })
+    .then(res => res.data.data.movies)
+    .then(
+        data => store.dispatch(listMovies(data)),
+        err => console.log(err.message)
+    );
+
 
 serviceWorker.unregister();

@@ -13,19 +13,19 @@ const Homepage = () => {
     )
 }
 
-const newMovie = {
-    "rating": 11,
-    "isWatched": false,
-    "genres": [
-        "COMEDY"
-    ],
-    "_id": "5e41133423aa5b00043c2b19",
-    "name": "Comedy Name",
-    "released_on": "03/03/2020",
-    "disk": "New disk",
-    "userId": "5e30287b23fc620004f8451",
-    "__v": 0
-}
+// const newMovie = {
+//     "rating": 11,
+//     "isWatched": false,
+//     "genres": [
+//         "COMEDY"
+//     ],
+//     "_id": "5e41133423aa5b00043c2b19",
+//     "name": "Comedy Name",
+//     "released_on": "03/03/2020",
+//     "disk": "New disk",
+//     "userId": "5e30287b23fc620004f8451",
+//     "__v": 0
+// }
 
 // getMoviesFromApi('https://afternoon-chamber-67331.herokuapp.com/movies')
 //      .then((data) => {
