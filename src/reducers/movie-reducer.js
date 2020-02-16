@@ -1,7 +1,6 @@
 import {
     LIST_MOVIES,
     EDIT_MOVIE,
-    VIEW_MOVIE,
     ADD_MOVIE_SUCCESS,
     ADD_MOVIE_FAILURE,
     ADD_MOVIE_STARTED,
@@ -39,6 +38,12 @@ const moviesReducer = (state = initialState, action) => {
                 ...state,
                 loading: false,
                 error: action.payload.error
+            };
+        case EDIT_MOVIE:
+            return {
+                ...state,
+                loading: true,
+                movies: action.payload.movies
             };
         case DELETE_MOVIE:
             return {

@@ -4,7 +4,6 @@ import Main from '../main/';
 import Footer from '../footer/';
 import { API, HEADER_OBJ } from '../../credentials';
 
-
 const Homepage = () => {
     return (
         <div className="wrapper">
@@ -15,6 +14,8 @@ const Homepage = () => {
     )
 }
 
+const date = new Date(Date.now());
+
 const newMovie = {
     "rating": 0,
     "isWatched": false,
@@ -22,11 +23,11 @@ const newMovie = {
         "DRAMA"
     ],
     "name": "JOKER",
-    "released_on": Date.now(),
+    "released_on": date.toLocaleString(),
     "disk": "New disk"
 }
 
-// const newMovie = {
+// movie = {
 //     "rating": 11,
 //     "isWatched": false,
 //     "genres": [

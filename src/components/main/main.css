@@ -7,7 +7,7 @@ h2 {
 
 ul {
     margin: 0 auto;
-    width: 80%;
+    max-width: 50%;
 }
 
 li {
@@ -28,3 +28,7 @@ li:nth-child(odd) {
     flex-basis: 100%;
 }
 
+small {
+    display: block;
+    word-break: break-all;
+}

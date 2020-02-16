@@ -1,37 +1,30 @@
 import React from 'react';
+import { useParams } from 'react-router-dom';
+import { Field, reduxForm } from 'redux-form';
+import { useSelector, useDispatch } from 'react-redux';
 import Header from '../header';
 import Footer from '../footer';
-import { Field, reduxForm } from 'redux-form'
 import './edit-movie.css';
 
 const validate = values => {
     const errors = {}
-    if (!values.username) {
-        errors.username = 'Required'
-    } else if (values.username.length > 15) {
-        errors.username = 'Must be 15 characters or less'
+    if (!values.rating) {
+        errors.rating = 'Required'
+    } else if (values.rating.length > 2 && values.rating >= 99) {
+        errors.username = 'Must be 2 characters max and < 99'
     }
-    if (!values.email) {
-        errors.email = 'Required'
-    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-        errors.email = 'Invalid email address'
+    if (!values.isWatched) {
+        errors.isWatched = 'Required'
+    } else if (typeof values.isWatched !== "boolean") {
+        errors.isWatched = 'It should be true or false'
     }
-    if (!values.age) {
-        errors.age = 'Required'
-    } else if (isNaN(Number(values.age))) {
-        errors.age = 'Must be a number'
-    } else if (Number(values.age) < 18) {
-        errors.age = 'Sorry, you must be at least 18 years old'
+    if (!values.genres) {
+        errors.genres = 'Required'
+    }
+    if (!values.name) {
+        errors.name = 'Required'
     }
     return errors
-}
-
-const warn = values => {
-    const warnings = {}
-    if (values.age < 19) {
-        warnings.age = 'Hmm, you seem a bit young...'
-    }
-    return warnings
 }
 
 const renderField = ({
@@ -44,27 +37,34 @@ const renderField = ({
             <label>{label}</label>
             <div>
                 <input {...input} placeholder={label} type={type} />
-                {touched &&
-                    ((error && <span>{error}</span>) ||
-                        (warning && <span>{warning}</span>))}
+                {touched && ((error && <span>{error}</span>) || (warning && <span>{warning}</span>))}
             </div>
         </div>
     )
 
 const CreateMovieForm = props => {
+
     const { handleSubmit, pristine, reset, submitting } = props
+    const { id } = useParams();
+    const movies = useSelector(state => state.moviesReducer.movies);
+    const [movie] = movies.filter(movie => movie._id === id);
+    console.log(id);
+    const { rating, isWatched, genres, _id, name, released_on, disk, userId, __v } = { ...movie };
+
     return (
         <div className="wrapper">
             <Header />
             <form onSubmit={handleSubmit}>
-                <Field
-                    name="username"
-                    type="text"
-                    component={renderField}
-                    label="Username"
-                />
-                <Field name="email" type="email" component={renderField} label="Email" />
-                <Field name="age" type="number" component={renderField} label="Age" />
+                {id ? <h2>Edit -> {name}</h2> : ''}
+                <Field name="rating" type="number" component={renderField} label="rating" />
+                <Field name="isWatched" type="text" component={renderField} label="isWatched" />
+                <Field name="genres" type="text" component={renderField} label="genres" />
+                <Field name="_id" type="text" component={renderField} label="_id" />
+                <Field name="name" type="text" component={renderField} label="name" />
+                <Field name="released_on" type="text" component={renderField} label="released_on" />
+                <Field name="disk" type="text" component={renderField} label="disk" />
+                <Field name="userId" type="number" component={renderField} label="userID" />
+                <Field name="__v" type="number" component={renderField} label="__v" />
                 <div>
                     <button type="submit" disabled={submitting}>
                         Submit
@@ -80,7 +80,6 @@ const CreateMovieForm = props => {
 }
 
 export default reduxForm({
-    form: 'createMovieValidation', // a unique identifier for this form
-    validate, // <--- validation function given to redux-form
-    warn // <--- warning function given to redux-form
+    form: 'movieForm', // a unique identifier for this form
+    validate // <--- validation function given to redux-form
 })(CreateMovieForm)

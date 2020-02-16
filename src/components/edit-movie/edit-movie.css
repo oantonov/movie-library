@@ -7,3 +7,30 @@ form {
     padding: 20px;
     margin: 0 auto;
 }
+
+form > div {
+    display: flex;
+    padding: 10px;
+}
+
+form > div:nth-child(even) {
+    background-color: #efefef;
+}
+
+form > div:last-child {
+    text-align: center;
+    display: block;
+}
+
+input[type=text],
+input[type=number] {
+    font-size: 14px;
+    padding: 4px;
+}
+
+input + span {
+    color: red;
+    font-weight: bold;
+    font-size: 12px;
+    padding-left: 10px;
+}

@@ -11,7 +11,7 @@ const Header = () => {
                 </h1>
             </Link>
             <Link to='/movie/create'>
-                <button to="/somewhere">Create Movie</button>
+                <button>Create Movie</button>
             </Link>
         </header>
     )

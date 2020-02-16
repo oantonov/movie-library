@@ -1,7 +1,6 @@
 import {
     LIST_MOVIES,
     EDIT_MOVIE,
-    VIEW_MOVIE,
     ADD_MOVIE_SUCCESS,
     ADD_MOVIE_FAILURE,
     ADD_MOVIE_STARTED,
@@ -9,7 +8,7 @@ import {
 } from '../actions/types';
 
 export const listMovies = movies => {
-    console.log('movies', movies);
+    //console.log('movies', movies);
     return {
         type: LIST_MOVIES,
         payload: {
@@ -26,13 +25,6 @@ export const editMovie = movie => {
         }
     }
 }
-
-export const viewMovie = movie => ({
-    type: VIEW_MOVIE,
-    payload: {
-        id: movie.id
-    }
-})
 
 export const addMovieSuccess = movie => ({
     type: ADD_MOVIE_SUCCESS,
@@ -53,7 +45,7 @@ export const addMovieStarted = () => ({
 });
 
 export const deleteMovie = movies => {
-    console.log('movies', movies);
+    // console.log('movies', movies);
     return {
         type: DELETE_MOVIE,
         payload: {

@@ -1,6 +1,5 @@
 export const LIST_MOVIES = 'LIST_MOVIES';
 export const EDIT_MOVIE = 'EDIT_MOVIE';
-export const VIEW_MOVIE = 'VIEW_MOVIE';
 export const ADD_MOVIE_SUCCESS = 'ADD_MOVIE_SUCCESS';
 export const ADD_MOVIE_FAILURE = 'ADD_MOVIE_FAILURE';
 export const ADD_MOVIE_STARTED = 'ADD_MOVIE_STARTED';
