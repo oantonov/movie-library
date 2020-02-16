@@ -17,11 +17,10 @@ const initialState = {
 const moviesReducer = (state = initialState, action) => {
     switch (action.type) {
         case LIST_MOVIES:
-            console.log('action.payload', action.payload);
             return {
                 ...state,
                 loading: true,
-                movies: [action.payload]
+                movies: action.payload.movies
             };
         case ADD_MOVIE_STARTED:
             return {
@@ -44,9 +43,8 @@ const moviesReducer = (state = initialState, action) => {
         case DELETE_MOVIE:
             return {
                 ...state,
-                loading: false,
-                error: null,
-                movies: [...state.movies, action.payload]
+                loading: true,
+                movies: action.payload.movies
             };
         default:
             return state;

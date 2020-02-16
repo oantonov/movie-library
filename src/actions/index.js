@@ -52,9 +52,12 @@ export const addMovieStarted = () => ({
     type: ADD_MOVIE_STARTED
 });
 
-export const deleteMovie = movie => ({
-    type: DELETE_MOVIE,
-    payload: {
-        id: movie.id
+export const deleteMovie = movies => {
+    console.log('movies', movies);
+    return {
+        type: DELETE_MOVIE,
+        payload: {
+            movies
+        }
     }
-});
+}

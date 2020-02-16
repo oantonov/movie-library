@@ -1,52 +1,101 @@
 import React from 'react';
+import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types'
 import Movie from '../movie';
+import { API, HEADER_OBJ } from '../../credentials';
 import './main.css';
-import axios from 'axios';
 import {
-    listMovies,
     createMovie,
     editMovie,
     viewMovie,
     deleteMovie
 } from '../../actions';
 
-
-function Main() {
+const Main = () => {
     const isLoaded = useSelector(state => state.moviesReducer.loading);
-    const dispatch = useDispatch();
-    
-    const movies = useSelector(state => state.moviesReducer.movies);    
-    const numOfMovies = movies.length;
+    const movies = useSelector(state => state.moviesReducer.movies);
 
-    if(isLoaded) {
+    if (isLoaded) {
         console.log('isLoaded', isLoaded);
         console.log('movies', movies);
-        console.log('no of movies', movies.map(movie => movie));
     }
-    
+
     return (
         <main>
             <h2>Movie List (main)</h2>
-            {!isLoaded ? <p className="error">There is no Internet!</p> : ''}
-            {numOfMovies === 0 ? <p className="error">No movies found</p> : <MovieList />}
+            {isLoaded ? <MovieList movies={movies} /> : <p className="error">No movies found</p>}
         </main>
     )
 }
 
-const numbers = [1, 2, 3, 4, 5];
+const MovieList = (props) => {
+    const movies = props.movies;
+    const moviesList = movies.map((movie) =>
+        <li key={movie._id}>
+            <span className="movie-title">
+                {movie.name} / {movie._id}
+            </span>
+            <div className="button-actions">
+                <ViewButton id={movie._id} />
+                <button onClick={dispatchEditMovie} data-key={movie._id}>Edit</button>
+                <DeleteButton id={movie._id} />
+            </div>
+        </li>
+    )
 
-const MovieList = (numbers) => (
-    <ul>
-        {React.Children.map(number =>
-            <Movie
-                key={number}
-                {...numbers}
-            />
-        )}
-    </ul>
-)
+    return (
+        <ul>{moviesList} </ul>
+    )
+}
+
+const ViewButton = (props) => {
+    const key = props.id;
+    const dispatch = useDispatch();
+    const dispatchViewMovie = (e) => {
+        e.preventDefault();
+        const id = e.target.dataset.key;
+        console.log('view id', `${API}/${id}`);
+        axios.delete(`${API}/${id}`, {
+            headers: { HEADER_OBJ }
+        });
+    }
+    return (
+        <button onClick={dispatchViewMovie} data-key={key}>View</button>
+    )
+}
+
+const EditButton = (props) => {
+    const key = props.id;
+    return (
+        <button onClick={dispatchEditMovie} data-key={key}>Edit</button>
+    )
+}
+
+const DeleteButton = (props) => {
+    const key = props.id;
+    const dispatch = useDispatch();
+    const dispatchViewMovie = (e) => {
+        e.preventDefault();
+        const id = e.target.dataset.key;
+        console.log('view id', `${API}/${id}`);
+        axios.delete(API + '/' + id,
+            { headers: HEADER_OBJ })
+            .then((data) => {
+                console.log(data); 
+                dispatch(deleteMovie());
+            });
+    }
+    return (
+        <button onClick={dispatchViewMovie} data-key={key}>Delete</button>
+    )
+}
+
+const dispatchEditMovie = (e) => {
+    e.preventDefault();
+    const id = e.target.dataset.key;
+    console.log('edit id', id);
+}
 
 // MovieList.propTypes = {
 //     movie: PropTypes.arrayOf(PropTypes.shape({

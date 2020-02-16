@@ -30,9 +30,8 @@ ReactDOM.render(
 axios.get(API, { headers: HEADER_OBJ })
     .then(res => res.data.data.movies)
     .then(
-        data => store.dispatch(listMovies(data)),
-        err => console.log(err.message)
-    );
-
+        data => store.dispatch(listMovies(data))
+    )
+    .catch(err => console.error(err.message));
 
 serviceWorker.unregister();

@@ -1,3 +1,30 @@
 main {
     padding: 20px;
 }
+h2 {
+    text-align: center;
+}
+
+ul {
+    margin: 0 auto;
+    width: 80%;
+}
+
+li {
+    padding: 10px;
+    display: flex;
+}
+
+li:nth-child(odd) {
+    background-color: #efefef;
+}
+
+.button-actions {
+    white-space: nowrap;
+}
+
+.movie-title {
+    display: inline-block;
+    flex-basis: 100%;
+}
+

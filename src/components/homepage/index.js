@@ -2,6 +2,8 @@ import React from 'react';
 import Header from '../header/';
 import Main from '../main/';
 import Footer from '../footer/';
+import { API, HEADER_OBJ } from '../../credentials';
+
 
 const Homepage = () => {
     return (
@@ -11,6 +13,17 @@ const Homepage = () => {
             <Footer />
         </div>
     )
+}
+
+const newMovie = {
+    "rating": 0,
+    "isWatched": false,
+    "genres": [
+        "DRAMA"
+    ],
+    "name": "JOKER",
+    "released_on": Date.now(),
+    "disk": "New disk"
 }
 
 // const newMovie = {
@@ -27,34 +40,17 @@ const Homepage = () => {
 //     "__v": 0
 // }
 
-// getMoviesFromApi('https://afternoon-chamber-67331.herokuapp.com/movies')
-//      .then((data) => {
-//          if(data.status == 'success'){
-//             console.log('###', data); // JSON data parsed by `response.json()` call
-//             //console.log('###', isLoaded);
-//             //dispatch(checkLoaded);
-//          }
-//      });
+async function postData(url = '', data = {}) {
+    // Default options are marked with *
+    const response = await fetch(url, {
+        method: 'POST', // *GET, POST, PUT, DELETE, etc.
+        headers: { HEADER_OBJ },
+        body: JSON.stringify(data) // body data type must match "Content-Type" header
+    });
+    return await response.json(); // parses JSON response into native JavaScript objects
+}
 
-// async function postData(url = '', data = {}) {
-//     // Default options are marked with *
-//     const response = await fetch(url, {
-//         method: 'POST', // *GET, POST, PUT, DELETE, etc.
-//         mode: 'cors', // no-cors, *cors, same-origin
-//         cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-//         credentials: 'same-origin', // include, *same-origin, omit
-//         headers: {
-//             'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMzAyODdiMjNmYzYyMDAwNGY4NDUxNyIsImlhdCI6MTU4MTMyMjM5OCwiZXhwIjoxNTgxOTI3MTk4fQ.OOLvI7oYP4B6VIRTNhlouC2t7SrvlttSVujNg-0qWik',
-//             'Content-Type': 'application/json'
-//         },
-//         redirect: 'follow', // manual, *follow, error
-//         referrerPolicy: 'no-referrer', // no-referrer, *client
-//         body: JSON.stringify(data) // body data type must match "Content-Type" header
-//     });
-//     return await response.json(); // parses JSON response into native JavaScript objects
-// }
-
-// postData('https://afternoon-chamber-67331.herokuapp.com/movies', newMovie)
+// postData(API, newMovie)
 //     .then((data) => {
 //         console.log(data); // JSON data parsed by `response.json()` call
 //     });
@@ -63,15 +59,12 @@ const Homepage = () => {
 //     // Default options are marked with *
 //     const response = await fetch(url, {
 //         method: 'DELETE', // *GET, POST, PUT, DELETE, etc.            
-//         headers: {
-//             'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMzAyODdiMjNmYzYyMDAwNGY4NDUxNyIsImlhdCI6MTU4MTMyMjM5OCwiZXhwIjoxNTgxOTI3MTk4fQ.OOLvI7oYP4B6VIRTNhlouC2t7SrvlttSVujNg-0qWik',
-//             'Content-Type': 'application/json'
-//         }
+//         headers: { HEADER_OBJ }
 //     });
 //     return await response.json(); // parses JSON response into native JavaScript objects
 // }
 
-// deleteData('https://afternoon-chamber-67331.herokuapp.com/movies'+'/5e42efad90db530004856f86')
+// deleteData(API +'/5e42efad90db530004856f86')
 //     .then((data) => {
 //         console.log(data); // JSON data parsed by `response.json()` call
 //     });
